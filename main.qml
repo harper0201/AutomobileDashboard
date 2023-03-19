@@ -32,12 +32,19 @@ Window {
                 verticalCenter: parent.verticalCenter
             }
             anchors.centerIn: parent
-            Rectangle {
+            ArrowIndicator {
                 id:leftindicator
                 anchors.verticalCenter: parent.verticalCenter
                 height:dashboard.height * 0.2 - dashboardRow.spacing
                 width:height
-                color: "white"
+                direction:Qt.LeftArrow
+            }
+            CircularGauge  {
+                id:rmpMeter
+                width: height
+                height: dashboard.height * 0.6
+                maximumValue: 5000
+                style: RPMMeterStyle{}
             }
 
             CircularGauge {
@@ -45,7 +52,7 @@ Window {
                 value: acceleration ? maximumValue:0
 
                 width: height
-                height: dashboard.height * 0.8
+                height: dashboard.height * 0.6
                 maximumValue: 180
                 property bool acceleration: false
                 style: SpeedmeterStyle {}
@@ -58,14 +65,24 @@ Window {
                 Component.onCompleted: forceActiveFocus();
             }
 
-            Rectangle {
+            ArrowIndicator {
                 id:rightindicator
                 anchors.verticalCenter: parent.verticalCenter
                 height:dashboard.height * 0.2 - dashboardRow.spacing
                 width:height
-                color: "white"
+                direction: Qt.RightArrow
             }
 
+        }
+
+        Keys.onLeftPressed:{
+            leftindicator.on = true;
+            rightindicator.on = false;
+        }
+
+        Keys.onRightPressed:{
+            rightindicator.on = true;
+            leftindicator.on = false;
         }
 
         Keys.onUpPressed:{

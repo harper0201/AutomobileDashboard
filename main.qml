@@ -7,90 +7,42 @@ import QtQuick.Controls 1.4
 
 Window {
     id: window
-    width: 640
-    height: 480
+    width: 1000
+    height: 1000
     visible: true
     title: qsTr("Automobile Dashboard")
-    Rectangle {
-        id:dashboard
-        height:500
-        width:900
-        color:"black";
-        anchors.top : parent.top
+
+    Column {
+        id:leftPanel
         anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        ValueSource {
-            id: valueSource
+        anchors.top: parent.top
 
-        }
-        Row {
-            id:dashboardRow
-            spacing:dashboard.width * 0.02
-            anchors{
-                horizontalCenter: parent.horizontalCenter
-                verticalCenter: parent.verticalCenter
+        width: parent.width * 0.2
+        spacing:20
+        Button {
+            id: confButton
+            text: "Vehicle Configuration"
+
+            onClicked: {
+                centralPanelLoader.source = "VehicleConfiguration.qml"
             }
-            anchors.centerIn: parent
-            ArrowIndicator {
-                id:leftindicator
-                anchors.verticalCenter: parent.verticalCenter
-                height:dashboard.height * 0.2 - dashboardRow.spacing
-                width:height
-                direction:Qt.LeftArrow
-            }
-            CircularGauge  {
-                id:rmpMeter
-                width: height
-                height: dashboard.height * 0.6
-                maximumValue: 5000
-                style: RPMMeterStyle{}
-            }
-
-            CircularGauge {
-                id: speedmeter
-                value: acceleration ? maximumValue:0
-
-                width: height
-                height: dashboard.height * 0.6
-                maximumValue: 180
-                property bool acceleration: false
-                style: SpeedmeterStyle {}
-
-                Behavior on value {
-                    NumberAnimation {
-                        duration: 9000
-                    }
-                }
-                Component.onCompleted: forceActiveFocus();
-            }
-
-            ArrowIndicator {
-                id:rightindicator
-                anchors.verticalCenter: parent.verticalCenter
-                height:dashboard.height * 0.2 - dashboardRow.spacing
-                width:height
-                direction: Qt.RightArrow
-            }
-
         }
 
-        Keys.onLeftPressed:{
-            leftindicator.on = true;
-            rightindicator.on = false;
-        }
+        Button {
+            id: simButton
+            text: "Dashboard Simulation"
 
-        Keys.onRightPressed:{
-            rightindicator.on = true;
-            leftindicator.on = false;
-        }
-
-        Keys.onUpPressed:{
-            speedmeter.acceleration = true
-        }
-        Keys.onReleased: {
-             speedmeter.acceleration = false;
+            onClicked: {
+                centralPanelLoader.source = "DashboardStimulator.qml"
+            }
         }
     }
 
+    Loader {
+        id: centralPanelLoader
+        anchors.centerIn: parent
+        width: parent.width
+    }
+
 }
+

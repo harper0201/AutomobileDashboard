@@ -1,30 +1,40 @@
-import QtQuick 2.15
+import QtQuick 2.0
 
 Item {
+
     id: valuesource
-    property real speed: speedmeter.value
-    property string gearValue : {
+
+    property real curGear : engineConfigCPP.curGear
+
+    property string gearValue: {
         var gear;
-        if (speed == 0){
+        if (engineConfigCPP.speed === 0)
+        {
             return "P";
         }
-        else if (speed < 30){
+        else if (curGear ==1)
+        {
             return "1";
         }
-        else if (speed < 50){
+        else if (curGear ==2)
+        {
             return "2";
         }
-        else if (speed < 80){
+        else if (curGear ==3)
+        {
             return "3";
         }
-        else if (speed < 120){
+        else if (curGear ==4)
+        {
             return "4";
         }
-        else if (speed < 160){
+        else if (curGear ==5)
+        {
             return "5";
         }
-        else {
+        else{
             return "6";
         }
     }
+
 }
